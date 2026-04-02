@@ -64,7 +64,7 @@ cd ~/SortCompare/build && ./SortCompare
 ```
 ## 运行结果示例（实际输出）
 程序运行后会显示：
-```bash
+```txt
 ========== 数据结构课程设计 - 排序算法效率比较 ==========
 测试环境：Ubuntu + GCC 13.3.0
 
@@ -82,3 +82,175 @@ Quick         时间: 17.933 ms     比较次数: 5546344
 ✅ 测试全部完成！
    结果文件已保存到：results/sort_results.csv
 ```
+**✅ 好的！**  
+
+以下是**专门为报告准备的4段关键代码片段**（已加详细中文注释、格式规范），直接复制到Word的“**详细设计**”和“**附录**”章节即可。  
+这些片段精简、重点突出，能很好地体现你作为代码手的贡献（占详细设计40%以上篇幅）。
+
+---
+
+### 1. 高精度计时器类（Timer）——推荐放在“3.2 计时模块”
+
+```cpp
+// include/timer.h
+#pragma once
+#include <chrono>
+
+class Timer {
+public:
+    void start();                    // 开始计时并清零比较次数
+    double stop();                   // 结束计时，返回毫秒
+    long long getComparisonCount() const;   // 获取比较次数
+    void resetComparisonCount();     // 重置比较次数
+    void incrementComparison();      // 每次元素比较时调用
+
+private:
+    std::chrono::time_point<std::chrono::high_resolution_clock> startTime;
+    long long comparisonCount = 0;
+};
+```
+
+```cpp
+// src/timer.cpp
+#include "timer.h"
+
+void Timer::start() {
+    startTime = std::chrono::high_resolution_clock::now();
+    comparisonCount = 0;
+}
+
+double Timer::stop() {
+    auto end = std::chrono::high_resolution_clock::now();
+    return std::chrono::duration<double, std::milli>(end - startTime).count();
+}
+
+long long Timer::getComparisonCount() const { return comparisonCount; }
+void Timer::resetComparisonCount() { comparisonCount = 0; }
+void Timer::incrementComparison() { ++comparisonCount; }
+```
+
+---
+
+### 2. 快速排序（Quick Sort）核心实现——推荐放在“3.3 排序算法模块”
+
+```cpp
+// src/sort_algorithms.cpp （快速排序部分）
+void quickSortHelper(std::vector<int>& arr, int low, int high) {
+    if (low >= high) return;
+    
+    int pivot = arr[high];
+    int i = low - 1;
+    
+    for (int j = low; j < high; ++j) {
+        if (g_timer) g_timer->incrementComparison();   // 统计比较次数
+        if (arr[j] < pivot) {
+            ++i;
+            swap(arr[i], arr[j]);
+        }
+    }
+    if (g_timer) g_timer->incrementComparison();
+    swap(arr[i + 1], arr[high]);
+    
+    int pi = i + 1;
+    quickSortHelper(arr, low, pi - 1);
+    quickSortHelper(arr, pi + 1, high);
+}
+
+void quickSort(std::vector<int>& arr) {
+    quickSortHelper(arr, 0, arr.size() - 1);
+}
+```
+
+---
+
+### 3. 堆排序（Heap Sort）核心实现——推荐放在“3.3 排序算法模块”
+
+```cpp
+// src/sort_algorithms.cpp （堆排序部分）
+void heapify(std::vector<int>& arr, int n, int i) {
+    int largest = i;
+    int l = 2 * i + 1;
+    int r = 2 * i + 2;
+
+    if (l < n) {
+        if (g_timer) g_timer->incrementComparison();
+        if (arr[l] > arr[largest]) largest = l;
+    }
+    if (r < n) {
+        if (g_timer) g_timer->incrementComparison();
+        if (arr[r] > arr[largest]) largest = r;
+    }
+
+    if (largest != i) {
+        swap(arr[i], arr[largest]);
+        heapify(arr, n, largest);
+    }
+}
+
+void heapSort(std::vector<int>& arr) {
+    int n = arr.size();
+    // 建堆
+    for (int i = n / 2 - 1; i >= 0; --i)
+        heapify(arr, n, i);
+    // 排序
+    for (int i = n - 1; i > 0; --i) {
+        swap(arr[0], arr[i]);
+        heapify(arr, i, 0);
+    }
+}
+```
+
+---
+
+### 4. 主测试流程（main.cpp 核心部分）——推荐放在“3.4 测试主流程”
+
+```cpp
+// src/main.cpp （核心测试流程）
+int main() {
+    std::vector<int> sizes = {100, 1000, 5000, 10000, 50000, 100000};
+    std::vector<std::string> algorithms = {"Bubble", "Quick", "Heap", "Shell", "Merge", "Insertion"};
+    std::vector<std::string> dataTypes = {"Random", "NearlySorted"};
+
+    Timer globalTimer;
+    g_timer = &globalTimer;
+
+    for (const auto& dataType : dataTypes) {
+        for (int size : sizes) {
+            for (const auto& algo : algorithms) {
+                int runs = (algo == "Bubble" && size >= 50000) ? 3 : 8;
+                double totalTime = 0.0;
+                long long totalComp = 0;
+
+                for (int r = 0; r < runs; ++r) {
+                    auto arr = (dataType == "Random") ? 
+                               generateRandomInt(size) : generateNearlySortedInt(size);
+
+                    g_timer->resetComparisonCount();
+                    g_timer->start();
+
+                    // 根据算法名称调用对应排序函数
+                    if (algo == "Bubble")      bubbleSort(arr);
+                    else if (algo == "Quick")  quickSort(arr);
+                    else if (algo == "Heap")   heapSort(arr);
+                    // ... 其他算法类似
+
+                    totalTime += g_timer->stop();
+                    totalComp += g_timer->getComparisonCount();
+                }
+                // 保存到 CSV ...
+            }
+        }
+    }
+    return 0;
+}
+```
+
+---
+
+**使用建议（发给A同学时可一起发）：**
+- 把以上4段代码直接复制到报告的“**详细设计**”章节
+- 每段代码前面加一句说明（如“3.3.1 快速排序实现”）
+- 最后在“附录”放完整的 `sort_algorithms.cpp` 源码
+
+需要我再给你**比较次数统计的完整sort_algorithms.cpp**、或者**发给A同学的完整总结消息**吗？  
+回复“要完整sort文件”或“发给A的消息”即可！
