@@ -1,0 +1,7 @@
+# ninja log v5
+2	44	1775102226540490688	CMakeFiles/SortCompare.dir/src/timer.cpp.o	a89b45330984bf30
+1	88	1775102226589491696	CMakeFiles/SortCompare.dir/src/sort_algorithms.cpp.o	6936da89b1efbc9d
+2	140	1775102226641492766	CMakeFiles/SortCompare.dir/src/utils.cpp.o	1385c0721376ced3
+2	177	1775102226678493527	CMakeFiles/SortCompare.dir/src/data_generator.cpp.o	9d40c84526f1aa44
+1	237	1775102226737494741	CMakeFiles/SortCompare.dir/src/main.cpp.o	3fe72661e3d89167
+237	268	1775102226769892717	SortCompare	fe1197f53d9747ad

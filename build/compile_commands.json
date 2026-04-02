@@ -1,0 +1,32 @@
+[
+{
+  "directory": "/home/maxkb/SortCompare/build",
+  "command": "/usr/bin/g++ -I/home/maxkb/SortCompare/include -g -std=gnu++17 -o CMakeFiles/SortCompare.dir/src/main.cpp.o -c /home/maxkb/SortCompare/src/main.cpp",
+  "file": "/home/maxkb/SortCompare/src/main.cpp",
+  "output": "CMakeFiles/SortCompare.dir/src/main.cpp.o"
+},
+{
+  "directory": "/home/maxkb/SortCompare/build",
+  "command": "/usr/bin/g++ -I/home/maxkb/SortCompare/include -g -std=gnu++17 -o CMakeFiles/SortCompare.dir/src/sort_algorithms.cpp.o -c /home/maxkb/SortCompare/src/sort_algorithms.cpp",
+  "file": "/home/maxkb/SortCompare/src/sort_algorithms.cpp",
+  "output": "CMakeFiles/SortCompare.dir/src/sort_algorithms.cpp.o"
+},
+{
+  "directory": "/home/maxkb/SortCompare/build",
+  "command": "/usr/bin/g++ -I/home/maxkb/SortCompare/include -g -std=gnu++17 -o CMakeFiles/SortCompare.dir/src/data_generator.cpp.o -c /home/maxkb/SortCompare/src/data_generator.cpp",
+  "file": "/home/maxkb/SortCompare/src/data_generator.cpp",
+  "output": "CMakeFiles/SortCompare.dir/src/data_generator.cpp.o"
+},
+{
+  "directory": "/home/maxkb/SortCompare/build",
+  "command": "/usr/bin/g++ -I/home/maxkb/SortCompare/include -g -std=gnu++17 -o CMakeFiles/SortCompare.dir/src/timer.cpp.o -c /home/maxkb/SortCompare/src/timer.cpp",
+  "file": "/home/maxkb/SortCompare/src/timer.cpp",
+  "output": "CMakeFiles/SortCompare.dir/src/timer.cpp.o"
+},
+{
+  "directory": "/home/maxkb/SortCompare/build",
+  "command": "/usr/bin/g++ -I/home/maxkb/SortCompare/include -g -std=gnu++17 -o CMakeFiles/SortCompare.dir/src/utils.cpp.o -c /home/maxkb/SortCompare/src/utils.cpp",
+  "file": "/home/maxkb/SortCompare/src/utils.cpp",
+  "output": "CMakeFiles/SortCompare.dir/src/utils.cpp.o"
+}
+]

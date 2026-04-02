@@ -1,0 +1,3 @@
+/home/maxkb/SortCompare/build/CMakeFiles/SortCompare.dir
+/home/maxkb/SortCompare/build/CMakeFiles/edit_cache.dir
+/home/maxkb/SortCompare/build/CMakeFiles/rebuild_cache.dir
